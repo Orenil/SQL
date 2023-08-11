@@ -1,0 +1,41 @@
+#1
+SELECT Owner.Name, OwnerId, StageName, IsWon, CloseDate, Amount, FiscalQuarter, FiscalYear
+FROM Opportunity
+WHERE IsWon = true AND CloseDate= LAST_N_MONTHS:3
+
+#2
+
+SELECT Owner.Name, Task.Type, COUNT(Id)
+FROM Task
+WHERE CreatedDate = LAST_MONTH AND What.Type = 'Opportunity'
+GROUP BY Owner.Name, Task.Type
+
+#3
+
+SELECT Owner.Name, LeadSource, CampaignId, Account.Industry, SUM(Amount)
+FROM Opportunity
+WHERE IsWon = true AND CloseDate = LAST_MONTH
+GROUP BY Owner.Name, LeadSource, CampaignId, Account.Industry
+
+#5
+q=SELECT+Account.Industry,COUNT(Id)+FROM+Task+WHERE+CreatedDate=LAST_N_MONTHS:3+GROUP BY Account.Industry
+
+SELECT Account.Industry, SUM(Amount)
+FROM Opportunity
+WHERE IsWon = true AND CloseDate = LAST_N_MONTHS:3
+GROUP BY Account.Industry
+
+
+#6
+SELECT Opportunity.ID, Opportunity.OwnerId, Opportunity.Amount, Opportunity.FiscalQuarter, Opportunity.FiscalYear, Opportunity.CloseDate, 
+Opportunity.isWon, CreatedDate, Field, NewValue, OldValue FROM OpportunityFieldHistory 
+Where Field = 'StageName' AND Opportunity.isWon = TRUE AND Opportunity.CloseDate = LAST_N_MONTHS:3
+
+
+SELECT Owner.Name, Task.OwnerId, Task.Type, COUNT(Id)
+FROM Task
+WHERE CreatedDate = LAST_N_MONTHS:3 AND What.Type = 'Opportunity'
+GROUP BY Owner.Name, Task.OwnerId, Task.Type
+
+#7
+SELECT OwnerId, Amount, CloseDate, Owner.Name, Owner.Title FROM Opportunity WHERE IsClosed = TRUE AND IsWon = TRUE AND CloseDate = LAST_N_MONTHS:3 AND Owner.Title !=null
